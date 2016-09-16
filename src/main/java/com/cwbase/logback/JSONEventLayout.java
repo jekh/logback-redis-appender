@@ -7,12 +7,9 @@ import ch.qos.logback.core.LayoutBase;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +26,9 @@ import java.util.regex.Pattern;
 public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 
     private final int DEFAULT_SIZE = 256;
-    private final int UPPER_LIMIT = 2048;
     private final static char DBL_QUOTE = '"';
     private final static char COMMA = ',';
 
-    private StringBuilder buf = new StringBuilder(DEFAULT_SIZE);
-    private DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SZ");
     private Pattern MDC_VAR_PATTERN = Pattern.compile("\\@\\{([^}^:-]*)(:-([^}]*)?)?\\}");
 
     private boolean locationInfo = false;
@@ -108,15 +102,8 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
      * Formats a {@link ILoggingEvent} in conformity with the log4j.dtd.
      */
     @Override
-    public synchronized String doLayout(ILoggingEvent event) {
-
-        // Reset working buffer. If the buffer is too large, then we need a new
-        // one in order to avoid the penalty of creating a large array.
-        if (buf.capacity() > UPPER_LIMIT) {
-            buf = new StringBuilder(DEFAULT_SIZE);
-        } else {
-            buf.setLength(0);
-        }
+    public String doLayout(ILoggingEvent event) {
+        StringBuilder buf = new StringBuilder(DEFAULT_SIZE);
 
         Map<String, String> mdc = event.getMDCPropertyMap();
         buf.append("{");
@@ -267,7 +254,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
     private String escape(String s) {
         if (s == null)
             return null;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(s.length() * 2);
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
             switch (ch) {
