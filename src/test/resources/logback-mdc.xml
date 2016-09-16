@@ -1,33 +1,33 @@
 <configuration>
-  <appender name="TEST" class="com.cwbase.logback.RedisAppender">
-    <source>test-application</source>
-    <type>test</type>
-    <host>localhost</host>
-    <key>logstash</key>
-    <tags>@{mdcvar1},@{mdcvar2},@{mdcvar1} @{mdcvar2} @{mdcvar3} @{mdcvar4:-foo}</tags>
-    <mdc>true</mdc>
-    <location>true</location>
-    <callerStackIndex>0</callerStackIndex>
-    <additionalField>
-      <key>MyKey</key>
-      <value>@{mdcvar1}</value>
-    </additionalField>
-    <additionalField>
-      <key>MySecondKey</key>
-      <value>@{mdcvar2}</value>
-    </additionalField>
-  </appender>
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder>
-      <pattern>%logger{15} - %message%n%xException{5}</pattern>
-    </encoder>
-  </appender>
+    <appender name="TEST" class="com.cwbase.logback.RedisAppender">
+        <source>test-application</source>
+        <type>test</type>
+        <host>localhost</host>
+        <key>logstash</key>
+        <tags>@{mdcvar1},@{mdcvar2},@{mdcvar1} @{mdcvar2} @{mdcvar3} @{mdcvar4:-foo}</tags>
+        <mdc>true</mdc>
+        <location>true</location>
+        <callerStackIndex>0</callerStackIndex>
+        <additionalField>
+            <key>MyKey</key>
+            <value>@{mdcvar1}</value>
+        </additionalField>
+        <additionalField>
+            <key>MySecondKey</key>
+            <value>@{mdcvar2}</value>
+        </additionalField>
+    </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%logger{15} - %message%n%xException{5}</pattern>
+        </encoder>
+    </appender>
 
-  <logger name="application" level="DEBUG" />
+    <logger name="application" level="DEBUG"/>
 
-  <root level="DEBUG">
-    <appender-ref ref="STDOUT" />
-    <appender-ref ref="TEST" />
-  </root>
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="TEST"/>
+    </root>
 
 </configuration>
