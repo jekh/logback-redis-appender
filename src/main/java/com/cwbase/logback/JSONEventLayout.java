@@ -105,6 +105,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
     /**
      * Formats a {@link ILoggingEvent} in conformity with the log4j.dtd.
      */
+    @Override
     public synchronized String doLayout(ILoggingEvent event) {
 
         // Reset working buffer. If the buffer is too large, then we need a new
@@ -251,7 +252,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
                 String val = mdc.get(m.group(1));
                 if (val == null) {
                     // If a default value exists, use it
-                    val = (m.group(3) != null) ? val = m.group(3) : m.group(1) + "_NOT_FOUND";
+                    val = (m.group(3) != null) ? m.group(3) : m.group(1) + "_NOT_FOUND";
                 }
                 m.appendReplacement(sb, Matcher.quoteReplacement(val));
             }
@@ -293,7 +294,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
                     sb.append("\\/");
                     break;
                 default:
-                    if (ch >= '\u0000' && ch <= '\u001F') {
+                    if (ch <= '\u001F') {
                         String ss = Integer.toHexString(ch);
                         sb.append("\\u");
                         for (int k = 0; k < 4 - ss.length(); k++) {
