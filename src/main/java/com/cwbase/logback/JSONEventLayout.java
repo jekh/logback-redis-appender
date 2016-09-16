@@ -9,6 +9,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -131,7 +133,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
         appendKeyValue(buf, "message", event.getFormattedMessage(), null);
         buf.append(COMMA);
         appendKeyValue(buf, "@timestamp",
-                df.format(new Date(event.getTimeStamp())), null);
+                DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochMilli(event.getTimeStamp())), null);
         buf.append(COMMA);
 
         // ---- fields ----
