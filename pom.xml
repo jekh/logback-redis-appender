@@ -7,6 +7,9 @@
     <version>1.1.6-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <prerequisites>
+        <maven>3.1.0</maven>
+    </prerequisites>
 
     <name>Logback Redis Appender</name>
     <description>Primarily for delivering logback logs to Logstash through
@@ -40,6 +43,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
@@ -80,10 +84,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
 
@@ -110,8 +113,16 @@
                     <goals>deploy</goals>
                 </configuration>
             </plugin>
-
         </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.5.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <profiles>
